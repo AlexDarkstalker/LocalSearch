@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 
+
 int** fileMatr(int nRows, int nCol)
 {
 	int** matrix = new int*[nRows];
@@ -161,26 +162,27 @@ int localSearchProc(int** formula, int bracketSize, int numBrackets, int* solVec
 	return records[0];
 }
 
-int* localSearch(int numVariables, int numBrackets, int variablesInBracket, int* startSolVect)
+
+resultLS localSearch(int numVariables, int numBrackets, int variablesInBracket, int* startSolVect)
 {
-	unsigned int startTime = clock(); //начальное время
+    resultLS res;
 	int** formula = genMatrix(numBrackets, variablesInBracket, numVariables);
+    int* startVect = new int[numVariables];
+    for (int i = 0; i<numVariables; i++)
+        startVect[i] = startSolVect[i];
 	//int** formula = fileMatr(numBrackets, variablesInBracket);
 	//printFormula(formula, numBrackets, variablesInBracket);
 	//startSolVect = genSolVect(numVariables);
 	//printSolVect(startSolVect, numVariables);
-	int* records = localRecords(formula, variablesInBracket, numBrackets, startSolVect, numVariables);
+	int* records = localRecords(formula, variablesInBracket, numBrackets, startVect, numVariables);
 	//printRecords(records, numVariables);
 	int iterCount = 0;
 
-	int localSearchMax = localSearchProc(formula, variablesInBracket, numBrackets, startSolVect, numVariables, records, iterCount);
+	res.localMax = localSearchProc(formula, variablesInBracket, numBrackets, startVect, numVariables, records, iterCount);
+    res.solVect = startVect;
+	//printSolVect(startVect, numVariables);
+	//std::cout << localSearchMax << std::endl;
+    cout << "iterCount =  " << iterCount << endl;
 
-	printSolVect(startSolVect, numVariables);
-	std::cout << localSearchMax << std::endl;
-	unsigned int endTime = clock(); // конечное время
-	unsigned int searchTime = endTime - startTime; // искомое время
-	cout << "time [mc] -  " << searchTime << endl;
-	cout << "iterCount =  " << iterCount << endl;
-
-	return startSolVect;
+	return res;
 }

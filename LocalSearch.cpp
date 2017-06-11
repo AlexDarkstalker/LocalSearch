@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #define N 9
 using namespace std;
-int* localSearch(int numVariables, int numBrackets, int variablesInBracket, int* startSolVect);
+resultLS localSearch(int numVariables, int numBrackets, int variablesInBracket, int* startSolVect);
 int* genSolVect(int size);
 
 int main(int argc, char** argv[])
